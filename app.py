@@ -30,18 +30,29 @@ def PredictScore(select_league,ht,at,):
     # raw_data_12 = pd.read_csv(folder +'season-1920.csv')
     # raw_data_13 = pd.read_csv(folder +'season-2021.csv')
     # raw_data_14 = pd.read_csv(folder +'season-2122.csv')
-    os.chdir('datasets/'+select_league+'/')
-    extension = 'csv'
-    all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
-    #combine all files in the list
-    combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
-    #export to csv
-    combined_csv.to_csv( "combined_csv.csv", index=False, encoding='utf-8-sig')
-    df=pd.read_csv("combined_csv.csv")
-    df=df.fillna(0)
-    dataset=df[["Date","HomeTeam",'AwayTeam','FTHG','FTAG','HC','AC','HY','AY','HR','AR']]
-    dataset['total_goals']=dataset['FTHG']+dataset['FTAG']
-    dataset.iloc[[dataset.total_goals.argmax()]]
+    from pathlib import Path
+    dataset = pd.DataFrame()
+    my_file = Path(select_league+".csv")
+    if my_file.is_file():
+        df=pd.read_csv(select_league+".csv")
+        df=df.fillna(0)
+        dataset=df[["Date","HomeTeam",'AwayTeam','FTHG','FTAG','HC','AC','HY','AY','HR','AR']]
+        dataset['total_goals']=dataset['FTHG']+dataset['FTAG']
+        dataset.iloc[[dataset.total_goals.argmax()]]
+
+    else:
+        os.chdir('datasets/'+select_league+'/')
+        extension = 'csv'
+        all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+        #combine all files in the list
+        combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+        #export to csv
+        combined_csv.to_csv( select_league+".csv", index=False, encoding='utf-8-sig')
+        df=pd.read_csv(select_league+".csv")
+        df=df.fillna(0)
+        dataset=df[["Date","HomeTeam",'AwayTeam','FTHG','FTAG','HC','AC','HY','AY','HR','AR']]
+        dataset['total_goals']=dataset['FTHG']+dataset['FTAG']
+        dataset.iloc[[dataset.total_goals.argmax()]]
     # print(dataset.total_goals.mean())
 
     if len(dataset[(dataset.HomeTeam ==ht) & (dataset.AwayTeam ==at)]) > 20:
