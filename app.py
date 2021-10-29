@@ -43,7 +43,7 @@ def PredictScore(select_league,ht,at,):
 
     else:
         import os
-        os.chdir('datasets/'+select_league+'/')
+        os.chdir('datasets/'+select_league)
         extension = 'csv'
         all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
         #combine all files in the list
