@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 gunicorn = "*"
-flask = "*"
+flask = "0.12.2"
 mysql-connector = "*"
 mysql-connector-python = "*"
 numpy = "*"
