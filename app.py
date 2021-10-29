@@ -144,4 +144,4 @@ def PredictScore(select_league,ht,at,):
     return json.dumps(temp)
 
 if __name__== "__main__":
-     app.run()
+     app.run(debug=True)
