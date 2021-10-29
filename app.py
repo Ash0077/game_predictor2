@@ -43,13 +43,16 @@ def PredictScore(select_league,ht,at,):
 
     else:
         import os
-        os.chdir('datasets/'+select_league)
-        extension = 'csv'
-        all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
-        #combine all files in the list
-        combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
-        #export to csv
-        combined_csv.to_csv( select_league+".csv", index=False, encoding='utf-8-sig')
+        list1=["ligue-1","bundesliga_team","la-liga","premier-league","serie-a"]
+        for i in list1:
+            os.chdir('datasets/'+i)
+            extension = 'csv'
+            all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+            #combine all files in the list
+            combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+            #export to csv
+            combined_csv.to_csv( i+".csv", index=False, encoding='utf-8-sig')
+            
         df=pd.read_csv(select_league+".csv")
         df=df.fillna(0)
         dataset=df[["Date","HomeTeam",'AwayTeam','FTHG','FTAG','HC','AC','HY','AY','HR','AR']]
