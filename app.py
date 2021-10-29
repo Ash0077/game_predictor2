@@ -34,6 +34,7 @@ def PredictScore(select_league,ht,at,):
     dataset = pd.DataFrame()
     my_file = Path(select_league+".csv")
     if my_file.is_file():
+        import os
         df=pd.read_csv(select_league+".csv")
         df=df.fillna(0)
         dataset=df[["Date","HomeTeam",'AwayTeam','FTHG','FTAG','HC','AC','HY','AY','HR','AR']]
@@ -41,6 +42,7 @@ def PredictScore(select_league,ht,at,):
         dataset.iloc[[dataset.total_goals.argmax()]]
 
     else:
+        import os
         os.chdir('datasets/'+select_league+'/')
         extension = 'csv'
         all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
